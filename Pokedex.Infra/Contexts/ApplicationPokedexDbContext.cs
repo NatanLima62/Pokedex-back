@@ -11,20 +11,21 @@ public class ApplicationPokedexDbContext : DbContext, IUnitOfWork
 {
     public ApplicationPokedexDbContext(DbContextOptions<ApplicationPokedexDbContext> options) : base(options)
     {
-        
     }
 
     public DbSet<Pokemon> Pokemons { get; set; } = null!;
-    
+    public DbSet<PokemonTipo> PokemonTipos { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
             .ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         ApplyConfigurations(modelBuilder);
-        
+
         base.OnModelCreating(modelBuilder);
     }
+
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         ApplyTrackingChanges();
@@ -37,7 +38,7 @@ public class ApplicationPokedexDbContext : DbContext, IUnitOfWork
     private static void ApplyConfigurations(ModelBuilder modelBuilder)
     {
         modelBuilder.Ignore<ValidationResult>();
-        
+
         modelBuilder.ApplyEntityConfiguration();
         modelBuilder.ApplyTrackingConfiguration();
     }
@@ -51,7 +52,7 @@ public class ApplicationPokedexDbContext : DbContext, IUnitOfWork
         foreach (var entityEntry in entries)
         {
             ((ITracking)entityEntry.Entity).AtualizadoEm = DateTime.Now;
-            
+
             if (entityEntry.State != EntityState.Added)
                 continue;
 

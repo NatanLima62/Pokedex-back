@@ -11,15 +11,15 @@ using Pokedex.Infra.Contexts;
 namespace Pokedex.Infra.Migrations
 {
     [DbContext(typeof(ApplicationPokedexDbContext))]
-    [Migration("20231020010123_Initial")]
-    partial class Initial
+    [Migration("20231020030409_AddDefaultTipos")]
+    partial class AddDefaultTipos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Pokedex.Domain.Entities.Pokemon", b =>
@@ -48,12 +48,46 @@ namespace Pokedex.Infra.Migrations
                         .HasMaxLength(120)
                         .HasColumnType("varchar(120)");
 
-                    b.Property<int>("Tipo")
+                    b.Property<int>("PokemonTipoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PokemonTipoId");
+
                     b.ToTable("Pokemons");
+                });
+
+            modelBuilder.Entity("Pokedex.Domain.Entities.PokemonTipo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PokemonTipos");
+                });
+
+            modelBuilder.Entity("Pokedex.Domain.Entities.Pokemon", b =>
+                {
+                    b.HasOne("Pokedex.Domain.Entities.PokemonTipo", "PokemonTipo")
+                        .WithMany("Pokemons")
+                        .HasForeignKey("PokemonTipoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PokemonTipo");
+                });
+
+            modelBuilder.Entity("Pokedex.Domain.Entities.PokemonTipo", b =>
+                {
+                    b.Navigation("Pokemons");
                 });
 #pragma warning restore 612, 618
         }

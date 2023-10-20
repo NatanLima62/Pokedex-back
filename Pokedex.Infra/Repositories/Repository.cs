@@ -27,17 +27,27 @@ public abstract class Repository<T> : IRepository<T> where T : BaseEntity, IAggr
         return await _dbSet.AsNoTrackingWithIdentityResolution().Where(expression).FirstOrDefaultAsync();
     }
 
-    public async Task<bool> Any(Expression<Func<T, bool>> expression)
+    public virtual async Task<IResultadoPaginado<T>> Buscar(IBuscaPaginada<T> filtro)
     {
-        return await _dbSet.AsNoTrackingWithIdentityResolution().Where(expression).AnyAsync();
+        var queryable = _dbSet.AsQueryable();
+        
+        filtro.AplicarFiltro(ref queryable);
+        filtro.AplicarOrdenacao(ref queryable);
+        
+        return await queryable.BuscarPaginadoAsync(filtro.Pagina, filtro.TamanhoPagina);
     }
 
-    public async Task<IResultadoPaginado<T>> Buscar(IQueryable<T> queryable, IBuscaPaginada<T> filtro)
+    public virtual async Task<IResultadoPaginado<T>> Buscar(IQueryable<T> queryable, IBuscaPaginada<T> filtro)
     {
         filtro.AplicarFiltro(ref queryable);
         filtro.AplicarOrdenacao(ref queryable);
         
         return await queryable.BuscarPaginadoAsync(filtro.Pagina, filtro.TamanhoPagina);
+    }
+
+    public async Task<bool> Any(Expression<Func<T, bool>> expression)
+    {
+        return await _dbSet.AsNoTrackingWithIdentityResolution().Where(expression).AnyAsync();
     }
     
     public void Dispose()

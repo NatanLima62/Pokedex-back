@@ -14,7 +14,7 @@ public class PokemonMapping : IEntityTypeConfiguration<Pokemon>
         builder.Property(p => p.Descricao)
             .HasMaxLength(255);
         
-        builder.Property(p => p.Tipo)
+        builder.Property(p => p.PokemonTipoId)
             .IsRequired();
     }
 }

@@ -13,10 +13,10 @@ public class PokemonValidator : AbstractValidator<Pokemon>
         RuleFor(p => p.Descricao)
             .MaximumLength(250);
 
-        RuleFor(p => p.Tipo)
+        RuleFor(p => p.PokemonTipoId)
             .NotNull()
             .WithMessage("O tipo não pode ser nulo")
-        
+            
             .NotEmpty()
             .WithMessage("O tipo não pode ser vazio");
     }

@@ -1,6 +1,9 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pokedex.Application.Contracts;
+using Pokedex.Application.Notifications;
+using Pokedex.Application.Services;
 using Pokedex.Infra;
 
 namespace Pokedex.Application;
@@ -15,15 +18,15 @@ public static class DependencyInjection
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         
-        //AplicarServices(services);
+        AplicarServices(services);
     }
 
-    // private static void AplicarServices(this IServiceCollection services)
-    // {
-    //     services
-    //         .AddScoped<INotificator, Notificator>();
-    //
-    //     services
-    //         .AddScoped<IPokemonService, PokemonService>();
-    // }
+    private static void AplicarServices(this IServiceCollection services)
+    {
+        services
+            .AddScoped<INotificator, Notificator>();
+
+        services 
+            .AddScoped<IPokemonService, PokemonService>();
+    }
 }

@@ -3,6 +3,7 @@ using Pokedex.Application.Contracts;
 using Pokedex.Application.Dtos.V1.Base;
 using Pokedex.Application.Dtos.V1.Pokemon;
 using Pokedex.Application.Notifications;
+using Pokedex.Core.Enums;
 using Pokedex.Domain.Contracts.Repositories;
 using Pokedex.Domain.Entities;
 
@@ -106,13 +107,18 @@ public class PokemonService : BaseService, IPokemonService
             Notificator.Handle(validationResult.Errors);
         }
         
+        if (!Enum.IsDefined(typeof(EPokemonTipo), pokemon.PokemonTipoId))
+        {
+           Notificator.Handle("O pokemón deve ter um tipo válido"); 
+        }
+        
         var existente = await _pokemonRepository.FirstOrDefault(u => u.Nome == pokemon.Nome && u.Id != pokemon.Id);
         if (existente != null)
         {
             Notificator.Handle(
                 $"Já existe um pokemón com esse nome cadastrado.");
         }
-
+        
         return !Notificator.HasNotification;
     }
 }

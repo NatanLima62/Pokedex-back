@@ -48,7 +48,6 @@ public class PokemonsController : BaseController
     [SwaggerOperation(Summary = "Atualizar um pokemón", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> Update(int id, [FromBody] AtualizarPokemonDto dto)
     {
         return OkResponse(await _pokemonService.Atualizar(id, dto));
@@ -57,7 +56,6 @@ public class PokemonsController : BaseController
     [HttpDelete]
     [SwaggerOperation(Summary = "Remover um pokemón", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> Remover(int id)
     {
         await _pokemonService.Remover(id);

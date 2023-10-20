@@ -22,9 +22,9 @@ public abstract class Repository<T> : IRepository<T> where T : BaseEntity, IAggr
         _dbSet = context.Set<T>();
     }
 
-    public async Task<T?> FirstOrDefault(Expression<Func<T, bool>> expression)
+    public async Task<T?> FirstOrDefault(Expression<Func<T, bool>> predicate)
     {
-        return await _dbSet.AsNoTrackingWithIdentityResolution().Where(expression).FirstOrDefaultAsync();
+        return await _dbSet.AsNoTrackingWithIdentityResolution().Where(predicate).FirstOrDefaultAsync();
     }
 
     public virtual async Task<IResultadoPaginado<T>> Buscar(IBuscaPaginada<T> filtro)
@@ -43,11 +43,6 @@ public abstract class Repository<T> : IRepository<T> where T : BaseEntity, IAggr
         filtro.AplicarOrdenacao(ref queryable);
         
         return await queryable.BuscarPaginadoAsync(filtro.Pagina, filtro.TamanhoPagina);
-    }
-
-    public async Task<bool> Any(Expression<Func<T, bool>> expression)
-    {
-        return await _dbSet.AsNoTrackingWithIdentityResolution().Where(expression).AnyAsync();
     }
     
     public void Dispose()

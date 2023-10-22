@@ -45,7 +45,7 @@ public class PokemonsController : BaseController
     }
     
     [HttpGet("buscar")]
-    [SwaggerOperation(Summary = "Buscar pokemóns por tipo e nome", Tags = new[] { "Pokedex - Pokemón" })]
+    [SwaggerOperation(Summary = "Buscar pokemóns por tipo e/ou nome", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> BuscarPorTipo([FromQuery] string nome, [FromQuery]int tipo)
@@ -67,7 +67,7 @@ public class PokemonsController : BaseController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Remover(int id)
     {
-        await _pokemonService.Remover(id);
+            await _pokemonService.Remover(id);
         return NoContentResponse();
     }
 }

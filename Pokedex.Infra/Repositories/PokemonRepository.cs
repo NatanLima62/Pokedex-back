@@ -26,19 +26,27 @@ public class PokemonRepository : Repository<Pokemon>, IPokemonRepository
         return await Context.Pokemons.Include(p => p.PokemonTipo).FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public async Task<List<Pokemon>> ObterPorNome(string nome)
-    {
-        return await Context.Pokemons.Include(p => p.PokemonTipo).Where(p => p.Nome.Contains(nome)).ToListAsync();
-    }
-
     public async Task<List<Pokemon>> ObterTodos()
     {
         return await Context.Pokemons.Include(p => p.PokemonTipo).ToListAsync();
     }
 
-    public async Task<List<Pokemon>> ObterPorTipo(int tipoId)
+    public async Task<List<Pokemon>> Buscar(string nome, int tipoId)
     {
-        return await Context.Pokemons.Include(p => p.PokemonTipo).Where(p => p.PokemonTipoId == tipoId).ToListAsync();
+        var query = Context.Pokemons.Include(p => p.PokemonTipo)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(nome))
+        {
+            query = query.Where(p => p.Nome.Contains(nome));
+        }
+
+        if (tipoId > 0)
+        {
+            query = query.Where(p => p.PokemonTipoId == tipoId);
+        }
+        
+        return await query.ToListAsync();
     }
 
     public void Remover(Pokemon pokemon)

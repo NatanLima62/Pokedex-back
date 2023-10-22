@@ -7,8 +7,7 @@ public interface IPokemonRepository : IRepository<Pokemon>
     void Adicionar(Pokemon pokemon);
     void Atualizar(Pokemon pokemon);
     Task<Pokemon?> ObterPorId(int id);
-    Task<List<Pokemon>> ObterPorNome(string nome);
     Task<List<Pokemon>> ObterTodos();
-    Task<List<Pokemon>> ObterPorTipo(int tipoId);
+    Task<List<Pokemon>> Buscar(string nome, int tipoId);
     void Remover(Pokemon pokemon);
 }

@@ -75,25 +75,15 @@ public class PokemonService : BaseService, IPokemonService
         return null;
     }
     
-    public async Task<PokemonDto?> ObterPorNome(string nome)
-    {
-        var pokemon = await _pokemonRepository.ObterPorNome(nome);
-        if (pokemon != null)
-            return Mapper.Map<PokemonDto>(pokemon);
-
-        Notificator.HandleNotFoundResourse();
-        return null;
-    }
-
-    public async Task<List<PokemonDto>> Buscar()
+    public async Task<List<PokemonDto>> ObterTodos()
     {
         var pokemon = await _pokemonRepository.ObterTodos();
         return Mapper.Map<List<PokemonDto>>(pokemon);
     }
 
-    public async Task<List<PokemonDto>> BuscarPorTipo(int tipoId)
+    public async Task<List<PokemonDto>> Buscar(string nome, int tipoId)
     {
-        var pokemon = await _pokemonRepository.ObterPorTipo(tipoId);
+        var pokemon = await _pokemonRepository.Buscar(nome, tipoId);
         return Mapper.Map<List<PokemonDto>>(pokemon);
     }
 

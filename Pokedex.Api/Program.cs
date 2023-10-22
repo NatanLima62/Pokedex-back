@@ -1,7 +1,6 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Pokedex.Api.Configuration;
-//using Pokedex.Api.Configuration;
 using Pokedex.Application;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +28,7 @@ builder.Services.AddSwagger();
 builder.Services.AddRouting(c => c.LowercaseUrls = true);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -42,6 +42,7 @@ app.UseCors(options =>
 {
     options.AllowAnyOrigin();
     options.AllowAnyHeader();
+    options.AllowAnyMethod();
 });
 
 app.UseHttpsRedirection();

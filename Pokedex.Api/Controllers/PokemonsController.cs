@@ -35,31 +35,22 @@ public class PokemonsController : BaseController
         return OkResponse(await _pokemonService.ObterPorId(id));
     }
     
-    [HttpGet("nome/{nome}")]
-    [SwaggerOperation(Summary = "Obter um pokemón por nome", Tags = new[] { "Pokedex - Pokemón" })]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> ObterPorNome(string nome)
-    {
-        return OkResponse(await _pokemonService.ObterPorNome(nome));
-    }
-    
     [HttpGet]
     [SwaggerOperation(Summary = "Buscar pokemóns", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Buscar()
+    public async Task<IActionResult> ObterTodos()
     {
-        return OkResponse(await _pokemonService.Buscar());
+        return OkResponse(await _pokemonService.ObterTodos());
     }
     
-    [HttpGet("tipo/{id:int}")]
-    [SwaggerOperation(Summary = "Buscar pokemóns por tipo", Tags = new[] { "Pokedex - Pokemón" })]
+    [HttpGet("buscar")]
+    [SwaggerOperation(Summary = "Buscar pokemóns por tipo e nome", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> BuscarPorTipo(int id)
+    public async Task<IActionResult> BuscarPorTipo([FromQuery] string nome, [FromQuery]int tipo)
     {
-        return OkResponse(await _pokemonService.BuscarPorTipo(id));
+        return OkResponse(await _pokemonService.Buscar(nome ,tipo));
     }
 
     [HttpPut("{id:int}")]

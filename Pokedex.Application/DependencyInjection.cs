@@ -26,7 +26,8 @@ public static class DependencyInjection
         services
             .AddScoped<INotificator, Notificator>();
 
-        services 
+        services
+            .AddScoped<IPokemonTipoService, PokemonTipoService>()
             .AddScoped<IPokemonService, PokemonService>();
     }
 }

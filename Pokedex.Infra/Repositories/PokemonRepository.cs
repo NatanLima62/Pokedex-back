@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Pokedex.Domain.Contracts.Paginacao;
 using Pokedex.Domain.Contracts.Repositories;
 using Pokedex.Domain.Entities;
 using Pokedex.Infra.Contexts;
-using Pokedex.Infra.Extensions;
 
 namespace Pokedex.Infra.Repositories;
 
@@ -28,18 +26,23 @@ public class PokemonRepository : Repository<Pokemon>, IPokemonRepository
         return await Context.Pokemons.Include(p => p.PokemonTipo).FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    public async Task<List<Pokemon>> ObterPorNome(string nome)
+    {
+        return await Context.Pokemons.Include(p => p.PokemonTipo).Where(p => p.Nome.Contains(nome)).ToListAsync();
+    }
+
+    public async Task<List<Pokemon>> ObterTodos()
+    {
+        return await Context.Pokemons.Include(p => p.PokemonTipo).ToListAsync();
+    }
+
+    public async Task<List<Pokemon>> ObterPorTipo(int tipoId)
+    {
+        return await Context.Pokemons.Include(p => p.PokemonTipo).Where(p => p.PokemonTipoId == tipoId).ToListAsync();
+    }
+
     public void Remover(Pokemon pokemon)
     {
         Context.Pokemons.Remove(pokemon);
-    }
-
-    public override async Task<IResultadoPaginado<Pokemon>> Buscar(IBuscaPaginada<Pokemon> filtro)
-    {
-        var queryable = Context.Pokemons.Include(p => p.PokemonTipo).AsQueryable();
-        
-        filtro.AplicarFiltro(ref queryable);
-        filtro.AplicarOrdenacao(ref queryable);
-        
-        return await queryable.BuscarPaginadoAsync(filtro.Pagina, filtro.TamanhoPagina);
     }
 }

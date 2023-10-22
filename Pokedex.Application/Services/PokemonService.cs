@@ -1,6 +1,5 @@
 using AutoMapper;
 using Pokedex.Application.Contracts;
-using Pokedex.Application.Dtos.V1.Base;
 using Pokedex.Application.Dtos.V1.Pokemon;
 using Pokedex.Application.Notifications;
 using Pokedex.Core.Enums;
@@ -75,11 +74,27 @@ public class PokemonService : BaseService, IPokemonService
         Notificator.HandleNotFoundResourse();
         return null;
     }
-
-    public async Task<PagedDto<PokemonDto>> Buscar(BuscarPokemonDto dto)
+    
+    public async Task<PokemonDto?> ObterPorNome(string nome)
     {
-        var pokemon = await _pokemonRepository.Buscar(dto);
-        return Mapper.Map<PagedDto<PokemonDto>>(pokemon);
+        var pokemon = await _pokemonRepository.ObterPorNome(nome);
+        if (pokemon != null)
+            return Mapper.Map<PokemonDto>(pokemon);
+
+        Notificator.HandleNotFoundResourse();
+        return null;
+    }
+
+    public async Task<List<PokemonDto>> Buscar()
+    {
+        var pokemon = await _pokemonRepository.ObterTodos();
+        return Mapper.Map<List<PokemonDto>>(pokemon);
+    }
+
+    public async Task<List<PokemonDto>> BuscarPorTipo(int tipoId)
+    {
+        var pokemon = await _pokemonRepository.ObterPorTipo(tipoId);
+        return Mapper.Map<List<PokemonDto>>(pokemon);
     }
 
     public async Task Remover(int id)

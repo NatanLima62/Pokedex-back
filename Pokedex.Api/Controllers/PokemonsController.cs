@@ -19,15 +19,15 @@ public class PokemonsController : BaseController
     [HttpPost]
     [SwaggerOperation(Summary = "Cadastro de um pokemón", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(typeof(PokemonDto), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Adicionar([FromBody] AdicionarPokemonDto dto)
     {
         return OkResponse(await _pokemonService.Adicionar(dto));
     }
 
-    [HttpGet("{id}")]
-    [SwaggerOperation(Summary = "Obter um podemón", Tags = new[] { "Pokedex - Pokemón" })]
+    [HttpGet("{id:int}")]
+    [SwaggerOperation(Summary = "Obter um pokemón por id", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> ObterPorId(int id)
@@ -35,16 +35,34 @@ public class PokemonsController : BaseController
         return OkResponse(await _pokemonService.ObterPorId(id));
     }
     
-    [HttpGet]
-    [SwaggerOperation(Summary = "Buscar podemóns", Tags = new[] { "Pokedex - Pokemón" })]
+    [HttpGet("nome/{nome}")]
+    [SwaggerOperation(Summary = "Obter um pokemón por nome", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Buscar([FromQuery] BuscarPokemonDto dto)
+    public async Task<IActionResult> ObterPorNome(string nome)
     {
-        return OkResponse(await _pokemonService.Buscar(dto));
+        return OkResponse(await _pokemonService.ObterPorNome(nome));
+    }
+    
+    [HttpGet]
+    [SwaggerOperation(Summary = "Buscar pokemóns", Tags = new[] { "Pokedex - Pokemón" })]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Buscar()
+    {
+        return OkResponse(await _pokemonService.Buscar());
+    }
+    
+    [HttpGet("tipo/{id:int}")]
+    [SwaggerOperation(Summary = "Buscar pokemóns por tipo", Tags = new[] { "Pokedex - Pokemón" })]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> BuscarPorTipo(int id)
+    {
+        return OkResponse(await _pokemonService.BuscarPorTipo(id));
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     [SwaggerOperation(Summary = "Atualizar um pokemón", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -53,7 +71,7 @@ public class PokemonsController : BaseController
         return OkResponse(await _pokemonService.Atualizar(id, dto));
     }
 
-    [HttpDelete]
+    [HttpDelete("{id:int}")]
     [SwaggerOperation(Summary = "Remover um pokemón", Tags = new[] { "Pokedex - Pokemón" })]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Remover(int id)

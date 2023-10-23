@@ -14,11 +14,11 @@ Criar uma API Rest usando .NET 6
       1. Criar migration: Vá em `tools > Entity Framework Core > Add Migration`. 
       2. Atualizar banco: Vá em `tools > Entity Framework Core > Update Database`
    2. Package Manager Console (Visual Studio) - Setar o projeto corrente para o projeto de **Infra.Data**
-      1. Criar migration: ```Add-Migration <migration_nome> -Context "ApplicationDbContext"```
-      2. Atualizar banco: ```Update-Database -Context "ApplicationDbContext"```
+      1. Criar migration: ```Add-Migration <migration_nome> -Context "ApplicationPokedexDbContext"```
+      2. Atualizar banco: ```Update-Database -Context "ApplicationPokedexDbContext"```
    3. dotnet ef (Executar comandos da raiz do projeto)
-      1. Criar migration: ```dotnet ef migrations add <migration_nome> -c ApplicationDbContext -s "src\Pokedex.API" -p "src\Pokedex.Infra"```
-      2. Atualizar banco: ```dotnet ef database update -c ApplicationDbContext -s "src\Pokedex.API" -p "src\IFCE.Intranet.Infra"```
+      1. Criar migration: ```dotnet ef migrations add <migration_nome> -c ApplicationPokedexDbContext -s "src\Pokedex.API" -p "src\Pokedex.Infra"```
+      2. Atualizar banco: ```dotnet ef database update -c ApplicationPokedexDbContext -s "src\Pokedex.API" -p "src\IFCE.Intranet.Infra"```
 6. Nos .csproj onde tiver `<Nullable>enable</Nullable>` alterar para `<Nullable>disable</Nullable>` para manter compatibilidade com o exemplo.
 ---
 

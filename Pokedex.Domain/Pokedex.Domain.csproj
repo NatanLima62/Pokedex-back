@@ -10,8 +10,4 @@
         <PackageReference Include="FluentValidation" Version="11.8.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Pokedex.Core\Pokedex.Core.csproj" />
-    </ItemGroup>
-
 </Project>

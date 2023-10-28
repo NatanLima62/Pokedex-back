@@ -13,6 +13,6 @@ public class PokemonTipoRepository : Repository<PokemonTipo>, IPokemonTipoReposi
 
     public async Task<List<PokemonTipo>> ObterTodos()
     {
-        return await Context.PokemonTipos.AsNoTrackingWithIdentityResolution().ToListAsync();
+        return await Context.PokemonTipos.Include(pt => pt.Pokemons).AsNoTrackingWithIdentityResolution().ToListAsync();
     }
 }

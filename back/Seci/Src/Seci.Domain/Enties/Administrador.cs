@@ -9,6 +9,7 @@ public class Administrador : Entity, IAggegateRoot, ISoftDelete
     public string Nome { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string Senha { get; set; } = null!;
+    public string Cpf { get; set; } = null!;
     public bool Ativo { get; set; }
 
     public override bool Validate(out ValidationResult validationResult)

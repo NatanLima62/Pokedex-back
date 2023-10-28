@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Seci.Core\Seci.Core.csproj" />
       <ProjectReference Include="..\Seci.Domain\Seci.Domain.csproj" />
     </ItemGroup>
 

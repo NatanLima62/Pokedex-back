@@ -22,5 +22,10 @@ public class AdministradorMapping : IEntityTypeConfiguration<Administrador>
             .Property(a => a.Senha)
             .HasMaxLength(250)
             .IsRequired();
+        
+        builder
+            .Property(a => a.Cpf)
+            .HasMaxLength(11)
+            .IsRequired();
     }
 }
